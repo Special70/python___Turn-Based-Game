@@ -1,11 +1,13 @@
 import time
 import settings
 
+import stats
+
 def mainMenu_startMsg_0():
     text = "Special70 Presents...."
     for i in range(len(text)):
         print(text[:i+1], end="\r")
-        time.sleep(0.1)
+        #time.sleep(0.1)
         
 def mainMenu_startMsg_1():
     text = '''
@@ -88,4 +90,145 @@ Select Gamemode:
 
 ► "B": Back
     '''
+    print(text)
+
+
+# =================[Multiplayer PVP]=================
+# =================[Multiplayer PVP]=================
+# =================[Multiplayer PVP]=================
+
+def gameSelector_multiplayerMenuDisplayNames():
+    text = '''
+==========================================
+Press W/S button to move the select arrow
+Press ENTER to confirm selection
+
+Player01 Stats:
+► HP: {p1_1} {select0}
+► ATK: {p1_2} {select1}
+► DEFENSE: {p1_3} {select2}
+► ENERGY: {p1_4} {select3}
+► Skills:
+  ► {p1_5} {select4}
+  ► {p1_6} {select5}
+  ► {p1_7} {select6}
+  ► {p1_8} {select7}
+  ► {p1_9} {select8}
+
+Player02 Stats:
+► HP: {p2_1} {select9}
+► ATK: {p2_2} {select10}
+► DEFENSE: {p2_3} {select11}
+► ENERGY: {p2_4} {select12}
+► Skills:
+  ► {p2_5} {select13}
+  ► {p2_6} {select14}
+  ► {p2_7} {select15}
+  ► {p2_8} {select16}
+  ► {p2_9} {select17}
+  
+► "P": Play
+► "B": Back
+    '''.format(
+        p1_1 = stats.player01.hp,
+        p1_2 = stats.player01.atk,
+        p1_3 = stats.player01.defense,
+        p1_4 = stats.player01.energy,
+        
+        p1_5 = stats.player01.skills[0],
+        p1_6 = stats.player01.skills[1],
+        p1_7 = stats.player01.skills[2],
+        p1_8 = stats.player01.skills[3],
+        p1_9 = stats.player01.skills[4],
+        
+        p2_1 = stats.player02.hp,
+        p2_2 = stats.player02.atk,
+        p2_3 = stats.player02.defense,
+        p2_4 = stats.player02.energy,
+        
+        p2_5 = stats.player02.skills[0],
+        p2_6 = stats.player02.skills[1],
+        p2_7 = stats.player02.skills[2],
+        p2_8 = stats.player02.skills[3],
+        p2_9 = stats.player02.skills[4],
+        
+        select0 = settings.multiplayerMainMenu_arrowSelection[0],
+        select1 = settings.multiplayerMainMenu_arrowSelection[1],
+        select2 = settings.multiplayerMainMenu_arrowSelection[2],
+        select3 = settings.multiplayerMainMenu_arrowSelection[3],
+        select4 = settings.multiplayerMainMenu_arrowSelection[4],
+        select5 = settings.multiplayerMainMenu_arrowSelection[5],
+        select6 = settings.multiplayerMainMenu_arrowSelection[6],
+        select7 = settings.multiplayerMainMenu_arrowSelection[7],
+        select8 = settings.multiplayerMainMenu_arrowSelection[8],
+        select9 = settings.multiplayerMainMenu_arrowSelection[9],
+        
+        select10 = settings.multiplayerMainMenu_arrowSelection[10],
+        select11 = settings.multiplayerMainMenu_arrowSelection[11],
+        select12 = settings.multiplayerMainMenu_arrowSelection[12],
+        select13 = settings.multiplayerMainMenu_arrowSelection[13],
+        select14 = settings.multiplayerMainMenu_arrowSelection[14],
+        select15 = settings.multiplayerMainMenu_arrowSelection[15],
+        select16 = settings.multiplayerMainMenu_arrowSelection[16],
+        select17 = settings.multiplayerMainMenu_arrowSelection[17]
+    )
+    print(text)
+    
+    
+# =================[Multiplayer PVP GAME SESSION]=================
+# =================[Multiplayer PVP GAME SESSION]=================
+# =================[Multiplayer PVP GAME SESSION]=================
+
+def gameSelector_multiplayerMenu_startGameTurn01():
+    text = '''
+=================================================
+{user_name}'s Turn!
+Player01 HP: {p1_hp}
+Player01 ATK: {p1_atk}
+Player01 DEF: {p1_defense}
+Player01 ENERGY: {p1_energy}
+
+Player02 HP: {p2_hp}
+Player02 ATK: {p2_atk}
+Player02 DEF: {p2_defense}
+Player02 ENERGY: {p2_energy}
+
+Select Action:
+► "{c1}" : {skill0} > {skill0_desc}
+► "{c2}" : {skill1} > {skill1_desc}
+► "{c3}" : {skill2} > {skill2_desc}
+► "{c4}" : {skill3} > {skill3_desc}
+► "{c5}" : {skill4} > {skill4_desc}
+
+► "Q": Back
+    '''.format(
+        user_name = stats.player01.name,
+        p1_hp = stats.player01.hp,
+        p1_atk = stats.player01.atk,
+        p1_defense = stats.player01.defense,
+        p1_energy = stats.player01.energy,
+        
+        p2_hp = stats.player02.hp,
+        p2_atk = stats.player02.atk,
+        p2_defense = stats.player02.defense,
+        p2_energy = stats.player02.energy,
+        
+        skill0 = stats.player01.skills[0],
+        skill1 = stats.player01.skills[1],
+        skill2 = stats.player01.skills[2],
+        skill3 = stats.player01.skills[3],
+        skill4 = stats.player01.skills[4],
+        
+        skill0_desc = stats.player01.skills[0].description,
+        skill1_desc = stats.player01.skills[1].description,
+        skill2_desc = stats.player01.skills[2].description,
+        skill3_desc = stats.player01.skills[3].description,
+        skill4_desc = stats.player01.skills[4].description,
+        
+        c1 = settings.keybinds["p1choice1"],
+        c2 = settings.keybinds["p1choice2"],
+        c3 = settings.keybinds["p1choice3"],
+        c4 = settings.keybinds["p1choice4"],
+        c5 = settings.keybinds["p1choice5"],
+    )
     print(text)

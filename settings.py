@@ -2,6 +2,8 @@ import system_lib
 import locale_EN as lang
 import os
 
+multiplayerMainMenu_arrowSelection = ['◄','','','','','','','','' ,'','','','','','','','','']
+
 keybinds = {
     "p1choice1": "A",
     "p1choice2": "S",

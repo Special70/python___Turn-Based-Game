@@ -11,7 +11,7 @@ import func_lib as func
 
 # ------------------------------------- Intro Msg
 lang.mainMenu_startMsg_0()
-time.sleep(1)
+#time.sleep(1)
 os.system('cls')
 syslib.disableKeyListener = False
    
@@ -41,7 +41,7 @@ def keyListener(): # This function is only good at making inputs work. NOT at se
         if msvcrt.kbhit() and syslib.disableKeyListener == False:
             syslib.currentKey = str(msvcrt.getch()).split("'")[1].upper()
             print(syslib.currentKey)
-            time.sleep(0.1) # Just to make sure it's not deleting SUPER FAST. Comment or increase when problems arise
+            #time.sleep(0.1) # Just to make sure it's not deleting SUPER FAST. Comment or increase when problems arise
             syslib.currentKey = ""
             
                 
