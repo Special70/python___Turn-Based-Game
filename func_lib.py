@@ -7,16 +7,17 @@ import msvcrt
 import time
 
 def mainMenuSystem():
-    while syslib.mainMenuLoop1:
+    while True:
         match (syslib.currentKey):
-            case "E":
+            case "E": # Exit Program
                 syslib.programStatus = False
-                syslib.mainMenuLoop1 = False
-            case "S":
+                break
+            case "S": # Settings
                 os.system('cls')
                 settingsEditor()
-            case "P":
-                pass
+            case "P": # Play
+                syslib.currentMenu = 2
+                break
             
 
 # =================[Settings]=================
@@ -44,7 +45,7 @@ def settingsKeyBindEditor():
         keypress = str(msvcrt.getch()).split("'")[1].upper()
         match (keypress):
             case "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9":
-                syslib.editMode = True
+                syslib.disableKeyListener = True
                 os.system('cls')
                 lang.settings_page01_keybindEditor_selectKeybind(keyOfKeybinds[int(keypress)])
                 settingsKeyBindEditor_setupKeybind(keyOfKeybinds[int(keypress)])
@@ -64,7 +65,7 @@ def settingsKeyBindEditor_setupKeybind(x):
             settings.keybinds[x] = keypress
             os.system('cls')
             lang.settings_page01_keybindEditor()
-            syslib.editMode = False
+            syslib.disableKeyListener = False
             break
             
     
@@ -72,3 +73,16 @@ def settingsKeyBindEditor_setupKeybind(x):
 # =================[Game Selector]=================
 # =================[Game Selector]=================
 # =================[Game Selector]=================
+def gameSelectorMenu():
+    while True:
+        match(syslib.currentKey):
+            case "B": # Back
+                syslib.currentMenu = 1
+                break
+            case "M": # Multiplayer
+                pass
+            case "O": # Singleplayer/AI
+                pass
+            
+def gameSelectorMenu_multiplayerMenu():
+    pass

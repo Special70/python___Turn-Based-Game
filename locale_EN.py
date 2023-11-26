@@ -76,3 +76,16 @@ Type any key to change the keybind for this specific keybind: {}
 # =================[Game Selector]=================
 # =================[Game Selector]=================
 # =================[Game Selector]=================
+
+def gameSelector():
+    text = '''
+==============================
+Select Gamemode:
+
+► "M": Multiplay (P1 vs P2)
+
+► "O": Computer Opponent (Singleplayer)
+
+► "B": Back
+    '''
+    print(text)
