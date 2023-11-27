@@ -2,6 +2,7 @@ import time
 import settings
 
 import stats
+import skills
 
 def mainMenu_startMsg_0():
     text = "Special70 Presents...."
@@ -173,13 +174,56 @@ Player02 Stats:
         select17 = settings.multiplayerMainMenu_arrowSelection[17]
     )
     print(text)
+
+
+
+statSelector_text = {
+        0: "Type decimal numbers to set the Health Value",
+        1: "Type decimal numbers to set the Attack Value",
+        2: "Type decimal numbers to set the Defense Value",
+        3: "Type decimal numbers to set the Energy Value",
     
+        4: "Skill #1",
+        5: "Skill #2",
+        6: "Skill #3",
+        7: "Skill #4",
+        8: "Skill #5"
+    }
+nameOfBasicAttributes = {
+    0: "hp",
+    1: "atk",
+    2: "defense",
+    3: "energy",
+}
+textValue = "" # Dedicated for the function below
+editorZeroValueError = ""
+def gameSelector_multiplayerMenuDisplayNames_editorMsg(selectedOption):
+    text = '''
+{textGuide}
+{value}_
+Press enter once done.
+{error}
+    '''.format(textGuide = statSelector_text[selectedOption],
+               value = textValue,
+               error = editorZeroValueError)
+    print(text)
+    
+def gameSelector_multiplayerMenuDisplayNames_skillSelectorMsg(selectedSkillNumber):
+    text = ('=================================',
+            f'Select skill for {selectedSkillNumber}',
+            f'► "Q": {skills.Basic_Attack()} > {skills.Basic_Attack.description}',
+            f'',
+            f'► "B": Back')
+    finalText = '\n'.join(text)
+    
+    
+    print(finalText)
     
 # =================[Multiplayer PVP GAME SESSION]=================
 # =================[Multiplayer PVP GAME SESSION]=================
 # =================[Multiplayer PVP GAME SESSION]=================
 
-def gameSelector_multiplayerMenu_startGameTurn01():
+def gameSelector_multiplayerMenu_startGameTurn01(playerClass):
     text = '''
 =================================================
 {user_name}'s Turn!
@@ -202,7 +246,7 @@ Select Action:
 
 ► "Q": Back
     '''.format(
-        user_name = stats.player01.name,
+        user_name = playerClass.name,
         p1_hp = stats.player01.hp,
         p1_atk = stats.player01.atk,
         p1_defense = stats.player01.defense,
@@ -219,16 +263,16 @@ Select Action:
         skill3 = stats.player01.skills[3],
         skill4 = stats.player01.skills[4],
         
-        skill0_desc = stats.player01.skills[0].description,
-        skill1_desc = stats.player01.skills[1].description,
-        skill2_desc = stats.player01.skills[2].description,
-        skill3_desc = stats.player01.skills[3].description,
-        skill4_desc = stats.player01.skills[4].description,
+        skill0_desc = playerClass.skills[0].description,
+        skill1_desc = playerClass.skills[1].description,
+        skill2_desc = playerClass.skills[2].description,
+        skill3_desc = playerClass.skills[3].description,
+        skill4_desc = playerClass.skills[4].description,
         
-        c1 = settings.keybinds["p1choice1"],
-        c2 = settings.keybinds["p1choice2"],
-        c3 = settings.keybinds["p1choice3"],
-        c4 = settings.keybinds["p1choice4"],
-        c5 = settings.keybinds["p1choice5"],
+        c1 = playerClass.keybind1,
+        c2 = playerClass.keybind2,
+        c3 = playerClass.keybind3,
+        c4 = playerClass.keybind4,
+        c5 = playerClass.keybind5,
     )
     print(text)
