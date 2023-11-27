@@ -8,6 +8,8 @@ class No_Selected_Skill:
         self.description = "None"
     def performSkill(self, user, target):
         print(user,"attacks",target,"!")
+    def action(self):
+        print("None")
         
 
     

@@ -257,11 +257,11 @@ Select Action:
         p2_defense = stats.player02.defense,
         p2_energy = stats.player02.energy,
         
-        skill0 = stats.player01.skills[0],
-        skill1 = stats.player01.skills[1],
-        skill2 = stats.player01.skills[2],
-        skill3 = stats.player01.skills[3],
-        skill4 = stats.player01.skills[4],
+        skill0 = playerClass.skills[0],
+        skill1 = playerClass.skills[1],
+        skill2 = playerClass.skills[2],
+        skill3 = playerClass.skills[3],
+        skill4 = playerClass.skills[4],
         
         skill0_desc = playerClass.skills[0].description,
         skill1_desc = playerClass.skills[1].description,

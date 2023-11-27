@@ -120,9 +120,17 @@ def gameSelectorMenu_multiplayerMenu():
                 time.sleep(0.01)
                 gameSelectorMenu_multiplayerMenu_editor()
             
+def exitSkillSelection():
+    os.system('cls')
+    lang.gameSelector_multiplayerMenuDisplayNames()
+    syslib.currentKey = ""
+    syslib.editorMode = False
+            
 def gameSelectorMenu_multiplayerMenu_editor():
+    
     syslib.editorMode = True
     specifiedPlayer = stats.player01 if settings.multiplayerMainMenu_arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else stats.player02
+    specifiedOppopent_of_Player = stats.player02 if settings.multiplayerMainMenu_arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else stats.player01 # To easily assign Player Class instance on skills
     currentIndex = settings.multiplayerMainMenu_arrowSelection.index('◄') if settings.multiplayerMainMenu_arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else settings.multiplayerMainMenu_arrowSelection.index('◄')-9
     if currentIndex < 4: # HP, ATK, DEF, ENERGY Value Editor
         os.system('cls')
@@ -161,15 +169,16 @@ def gameSelectorMenu_multiplayerMenu_editor():
         lang.gameSelector_multiplayerMenuDisplayNames_skillSelectorMsg("Skill #"+str(currentIndex-3))
         while True:
             match(syslib.currentKey):
-                case "B":
-                    os.system('cls')
-                    lang.gameSelector_multiplayerMenuDisplayNames()
-                    syslib.currentKey = ""
-                    syslib.editorMode = False
+                case "B": # Back / Choose nothing
+                    exitSkillSelection()
                     break
-        
+                case "Q":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Basic_Attack()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedOppopent_of_Player)
+                    exitSkillSelection()
+                    break
             
-    
+            
 
 # =================[Multiplayer PVP GAME SESSION]=================
 # =================[Multiplayer PVP GAME SESSION]=================
@@ -197,7 +206,7 @@ def multiplayerSession():
                         match (syslib.currentKey):
                             case "N": # No
                                 os.system('cls')
-                                lang.gameSelector_multiplayerMenu_startGameTurn01()
+                                lang.gameSelector_multiplayerMenu_startGameTurn01(syslib.turnIdentifier)
                                 break
                             case "Y": # Yes
                                 os.system('cls')
@@ -208,21 +217,26 @@ def multiplayerSession():
                         break
                 # Enter Skill
                 case syslib.turnIdentifier.keybind1:
-                    syslib.turnIdentifier.skills[0]
+                    syslib.turnIdentifier.skills[0].action()
                     print("Skill 1")
                 case syslib.turnIdentifier.keybind2:
-                    syslib.turnIdentifier.skills[1]
+                    syslib.turnIdentifier.skills[1].action()
                     print("Skill 2")
                 case syslib.turnIdentifier.keybind3:
-                    syslib.turnIdentifier.skills[2]
+                    syslib.turnIdentifier.skills[2].action()
                     print("Skill 3")
+                    break
                 case syslib.turnIdentifier.keybind4:
-                    syslib.turnIdentifier.skills[3]
+                    syslib.turnIdentifier.skills[3].action()
                     print("Skill 4")
+                    break
                 case syslib.turnIdentifier.keybind5:
-                    syslib.turnIdentifier.skills[4]
+                    syslib.turnIdentifier.skills[4].action()
                     print("Skill 5")
+                    break
         
+        os.system('cls')
+        lang.gameSelector_multiplayerMenu_startGameTurn01(syslib.turnIdentifier)
         # Switches rounds
         match (syslib.turnNumber):
             case 1:
