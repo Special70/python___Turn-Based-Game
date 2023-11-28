@@ -16,6 +16,17 @@ def effectLoaderStart(): # Performs extra actions every start of turn
         else:
             i.duration -= 1
 
+class AbilityCooldown:
+    def __init__(self, caster, skillname, duration):
+        self.skillname = skillname
+        self.caster = caster
+        self.target = caster
+        self.duration = duration
+    def __repr__(self):
+        return "Cooldown: "+self.skillname+" ("+str(self.duration)+")"
+    def action(self):
+        pass
+
 class Burn:
     def __init__(self, caster, target, duration):
         self.caster = caster

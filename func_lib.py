@@ -82,41 +82,51 @@ def gameSelectorMenu(): # Used at main.py
                 # For refreshing default stats
                 stats.player01 = stats.Player("Player 1")
                 stats.player02 = stats.Player("Player 2")
-                
+                syslib.gamemode = "multiplayer"
                 os.system('cls')
-                gameSelectorMenu_multiplayerMenu()
+                gameSelectorMenu_statsEditorMenu()
                 lang.gameSelector()
             case "O": # Singleplayer/AI
-                pass
+                stats.player01 = stats.Player("Player 1")
+                stats.player02 = stats.Player("Player 2")
+                syslib.gamemode = "singleplayer"
+                os.system('cls')
+                gameSelectorMenu_statsEditorMenu()
+                lang.gameSelector()
             
-def gameSelectorMenu_multiplayerMenu():
-    lang.gameSelector_multiplayerMenuDisplayNames()
+def gameSelectorMenu_statsEditorMenu():
+    if syslib.gamemode == "multiplayer":
+        settings.arrowSelectionMaxIndex = 17
+    elif syslib.gamemode == "singleplayer":
+        settings.arrowSelectionMaxIndex = 12
+    lang.gameSelector_statsEditorMenuDisplay()
     while True:
         match(syslib.currentKey):
             case "B": # Back
                 os.system('cls')
+                settings.arrowSelection = ['◄','','','','','','','','' ,'','','','','','','','',''] # To patch a bug where if you select the opponent skill selection in multiplayer then switch to singleplayer
                 break
             case "W": # Move UP
-                if settings.multiplayerMainMenu_arrowSelection.index('◄') > 0:
+                if settings.arrowSelection.index('◄') > 0:
                     os.system('cls')
-                    indexOfArrow = settings.multiplayerMainMenu_arrowSelection.index('◄')
-                    settings.multiplayerMainMenu_arrowSelection[indexOfArrow] = ""
-                    settings.multiplayerMainMenu_arrowSelection[indexOfArrow-1] = "◄"
-                    lang.gameSelector_multiplayerMenuDisplayNames()
+                    indexOfArrow = settings.arrowSelection.index('◄')
+                    settings.arrowSelection[indexOfArrow] = ""
+                    settings.arrowSelection[indexOfArrow-1] = "◄"
+                    lang.gameSelector_statsEditorMenuDisplay()
                     time.sleep(0.01)
             case "S": # Move DOWN
-                if settings.multiplayerMainMenu_arrowSelection.index('◄') < len(settings.multiplayerMainMenu_arrowSelection)-1:
+                if settings.arrowSelection.index('◄') < settings.arrowSelectionMaxIndex:
                     os.system('cls')
-                    indexOfArrow = settings.multiplayerMainMenu_arrowSelection.index('◄')
-                    settings.multiplayerMainMenu_arrowSelection[indexOfArrow] = ""
-                    settings.multiplayerMainMenu_arrowSelection[indexOfArrow+1] = "◄"
-                    lang.gameSelector_multiplayerMenuDisplayNames()
+                    indexOfArrow = settings.arrowSelection.index('◄')
+                    settings.arrowSelection[indexOfArrow] = ""
+                    settings.arrowSelection[indexOfArrow+1] = "◄"
+                    lang.gameSelector_statsEditorMenuDisplay()
                     time.sleep(0.01)
             case "P": # Play ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                syslib.editorMode = False
                 os.system('cls')
                 # Pick which of the two will make the first move:
                 syslib.turnNumber = random.randint(1, 2) # Decides who's gonna get the first turn
-                stats.loadPlayerKeybinds()
                 multiplayer.multiplayerSession()
                 break
             case "\R":
@@ -126,16 +136,15 @@ def gameSelectorMenu_multiplayerMenu():
             
 def exitSkillSelection():
     os.system('cls')
-    lang.gameSelector_multiplayerMenuDisplayNames()
+    lang.gameSelector_statsEditorMenuDisplay()
     syslib.currentKey = ""
     syslib.editorMode = False
             
 def gameSelectorMenu_multiplayerMenu_editor():
-    
-    syslib.editorMode = True
-    specifiedPlayer = stats.player01 if settings.multiplayerMainMenu_arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else stats.player02
-    specifiedOppopent_of_Player = stats.player02 if settings.multiplayerMainMenu_arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else stats.player01 # To easily assign Player Class instance on skills
-    currentIndex = settings.multiplayerMainMenu_arrowSelection.index('◄') if settings.multiplayerMainMenu_arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else settings.multiplayerMainMenu_arrowSelection.index('◄')-9
+    syslib.editorMode = True 
+    specifiedPlayer = stats.player01 if settings.arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else stats.player02 
+    specifiedOppopent_of_Player = stats.player02 if settings.arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else stats.player01 # To easily assign Player Class instance on skills
+    currentIndex = settings.arrowSelection.index('◄') if settings.arrowSelection.index('◄') in [0, 1, 2, 3, 4, 5, 6, 7, 8] else settings.arrowSelection.index('◄')-9
     if currentIndex < 4: # HP, ATK, DEF, ENERGY Value Editor
         os.system('cls')
         lang.textValue = str(getattr(specifiedPlayer, lang.nameOfBasicAttributes[currentIndex]))
@@ -162,7 +171,7 @@ def gameSelectorMenu_multiplayerMenu_editor():
                 else:   
                     os.system('cls')
                     setattr(specifiedPlayer, lang.nameOfBasicAttributes[currentIndex], int(lang.textValue))
-                    lang.gameSelector_multiplayerMenuDisplayNames()
+                    lang.gameSelector_statsEditorMenuDisplay()
                     syslib.currentKey = ""
                     lang.textValue = ""
                     lang.editorZeroValueError = ""
@@ -204,6 +213,16 @@ def gameSelectorMenu_multiplayerMenu_editor():
                 case "Y":
                     specifiedPlayer.skills[currentIndex-4] = skills.Weaken()
                     specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedOppopent_of_Player, specifiedPlayer)
+                    exitSkillSelection()
+                    break
+                case "U":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Energize()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedPlayer)
+                    exitSkillSelection()
+                    break
+                case "I":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Strengthen()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedPlayer)
                     exitSkillSelection()
                     break
                     

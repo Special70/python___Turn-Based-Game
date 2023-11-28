@@ -1,7 +1,6 @@
-import time
 import settings
-
 import stats
+import system_lib as syslib
 from custom_mechanics import skills
 from custom_mechanics import effects
 
@@ -99,7 +98,7 @@ Select Gamemode:
 # =================[Multiplayer PVP]=================
 # =================[Multiplayer PVP]=================
 
-def gameSelector_multiplayerMenuDisplayNames():
+def gameSelector_statsEditorMenuDisplay():
     text = '''
 ==========================================
 Press W/S button to move the select arrow
@@ -117,7 +116,7 @@ Player01 Stats:
   ► {p1_8} {select7}
   ► {p1_9} {select8}
 
-Player02 Stats:
+Player02 Stats: 
 ► HP: {p2_1} {select9}
 ► ATK: {p2_2} {select10}
 ► DEFENSE: {p2_3} {select11}
@@ -148,31 +147,31 @@ Player02 Stats:
         p2_3 = stats.player02.defense,
         p2_4 = stats.player02.energy,
         
-        p2_5 = stats.player02.skills[0],
-        p2_6 = stats.player02.skills[1],
-        p2_7 = stats.player02.skills[2],
-        p2_8 = stats.player02.skills[3],
-        p2_9 = stats.player02.skills[4],
+        p2_5 = stats.player02.skills[0] if syslib.gamemode == "multiplayer" else "Random",
+        p2_6 = stats.player02.skills[1] if syslib.gamemode == "multiplayer" else "Random",
+        p2_7 = stats.player02.skills[2] if syslib.gamemode == "multiplayer" else "Random",
+        p2_8 = stats.player02.skills[3] if syslib.gamemode == "multiplayer" else "Random",
+        p2_9 = stats.player02.skills[4] if syslib.gamemode == "multiplayer" else "Random",
         
-        select0 = settings.multiplayerMainMenu_arrowSelection[0],
-        select1 = settings.multiplayerMainMenu_arrowSelection[1],
-        select2 = settings.multiplayerMainMenu_arrowSelection[2],
-        select3 = settings.multiplayerMainMenu_arrowSelection[3],
-        select4 = settings.multiplayerMainMenu_arrowSelection[4],
-        select5 = settings.multiplayerMainMenu_arrowSelection[5],
-        select6 = settings.multiplayerMainMenu_arrowSelection[6],
-        select7 = settings.multiplayerMainMenu_arrowSelection[7],
-        select8 = settings.multiplayerMainMenu_arrowSelection[8],
-        select9 = settings.multiplayerMainMenu_arrowSelection[9],
+        select0 = settings.arrowSelection[0],
+        select1 = settings.arrowSelection[1],
+        select2 = settings.arrowSelection[2],
+        select3 = settings.arrowSelection[3],
+        select4 = settings.arrowSelection[4],
+        select5 = settings.arrowSelection[5],
+        select6 = settings.arrowSelection[6],
+        select7 = settings.arrowSelection[7],
+        select8 = settings.arrowSelection[8],
+        select9 = settings.arrowSelection[9],
         
-        select10 = settings.multiplayerMainMenu_arrowSelection[10],
-        select11 = settings.multiplayerMainMenu_arrowSelection[11],
-        select12 = settings.multiplayerMainMenu_arrowSelection[12],
-        select13 = settings.multiplayerMainMenu_arrowSelection[13],
-        select14 = settings.multiplayerMainMenu_arrowSelection[14],
-        select15 = settings.multiplayerMainMenu_arrowSelection[15],
-        select16 = settings.multiplayerMainMenu_arrowSelection[16],
-        select17 = settings.multiplayerMainMenu_arrowSelection[17]
+        select10 = settings.arrowSelection[10],
+        select11 = settings.arrowSelection[11],
+        select12 = settings.arrowSelection[12],
+        select13 = settings.arrowSelection[13],
+        select14 = settings.arrowSelection[14],
+        select15 = settings.arrowSelection[15],
+        select16 = settings.arrowSelection[16],
+        select17 = settings.arrowSelection[17]
     )
     print(text)
 
@@ -218,6 +217,8 @@ def gameSelector_multiplayerMenuDisplayNames_skillSelectorMsg(selectedSkillNumbe
             f'► "R": {skills.Defense()} > {skills.Defense.description}',
             f'► "T": {skills.Burn()} > {skills.Burn.description}',
             f'► "Y": {skills.Weaken()} > {skills.Weaken.description}',
+            f'► "U": {skills.Energize()} > {skills.Energize.description}',
+            f'► "I": {skills.Strengthen()} > {skills.Strengthen.description}',
             f'',
             f'► "B": Back')
     finalText = '\n'.join(text)
@@ -239,10 +240,11 @@ def gameSelector_multiplayerMenu_startGameTurn01(playerClass):
             f'Current Effects : {[x for x in effects.effectList if x.target.name == "Player 1"]}',
             f'',
             f'Player02 HP: {stats.player02.hp}',
-            f'Player02 ATK: {stats.player02.atk}',
+            f'Player02 ATK: {stats.player02.atk} {f"* {stats.player02.amplifier}" if stats.player02.amplifier > 1 else ""}',
             f'Player02 DEF: {stats.player02.defense}',
             f'Player02 ENERGY: {stats.player02.energy}',
             f'Current Effects : {[x for x in effects.effectList if x.target.name == "Player 2"]}',
+            f'Recent Opponent Action: {settings.recentOpponentMove if syslib.gamemode == "singleplayer" else ""}',
             f'',
             f'Select Action:',
             f'► "{playerClass.keybind1}" : {playerClass.skills[0]} > {playerClass.skills[0].description}',

@@ -11,7 +11,7 @@ currentMenu = 1 # Dictates where the program would go once the said menu ends
 # Program's Loop Status
 mainMenuLoop1_settings_keybindEditor = True
 
-mainMenuLoop2 = True
+gamemode = ""
 
 turnNumber = 1 # Decides who's taking the turn
 turnIdentifier = stats.player01

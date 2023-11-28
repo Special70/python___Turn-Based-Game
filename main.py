@@ -29,12 +29,9 @@ def mainThread():
                 lang.gameSelector()
                 func.gameSelectorMenu()
                 os.system('cls')
-        
-        
-            
             
     # For debugging purposes
-    print("[!] mainThread thread finished [!]")
+    # print("[!] mainThread thread finished [!]")
 
 def keyListener(): # This function is only good at making inputs work. NOT at setting up keybinds or some sort. If you're gonna add some custom things that records keypresses, don't use syslib.currentKey .
     while syslib.programStatus:
@@ -43,7 +40,7 @@ def keyListener(): # This function is only good at making inputs work. NOT at se
             print(syslib.currentKey)
             time.sleep(0.01) # This is important for the keybinds to work. Commenting this out bricks the controls. Why? The var resetter would overperform it's job of resetting the current keypress.
             if syslib.editorMode:
-                time.sleep(0.025) # The 0.03s time allows extra time for the program to record keypresses
+                time.sleep(0.025) # The 0.025s time allows extra time for the program to record keypresses
             syslib.currentKey = ""
             
                 
