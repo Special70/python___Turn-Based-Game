@@ -6,7 +6,8 @@ class No_Selected_Skill:
         return "None"
     def __init__(self):
         self.description = "None"
-        self.name = ""
+        self.name = "Null"
+        self.skillname = "Null"
     def performSkill(self, user, target):
         print(user,"attacks",target,"!")
     def action(self):

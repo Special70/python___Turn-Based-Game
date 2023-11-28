@@ -25,6 +25,7 @@ class Heal:
     
     def assignTarget(self, caster):
         self.caster = caster
+        self.target = caster
     
     def action(self):
         self.caster.hp += 2 * self.caster.amplifier
@@ -39,6 +40,7 @@ class Amplify:
     
     def assignTarget(self, caster):
         self.caster = caster
+        self.target = caster
         
     def action(self):
         self.caster.amplifier += 1
@@ -52,6 +54,7 @@ class Defense:
     
     def assignTarget(self, caster):
         self.caster = caster
+        self.target = caster
         
     def action(self):
         self.caster.defense += 2 * self.caster.amplifier
@@ -99,6 +102,7 @@ class Energize:
     
     def assignTarget(self, caster):
         self.caster = caster
+        self.target = caster
     
     def action(self):
         self.caster.energy += 2
@@ -112,6 +116,7 @@ class Strengthen:
     
     def assignTarget(self, caster):
         self.caster = caster
+        self.target = caster
     
     def action(self):
         self.caster.atk += 2

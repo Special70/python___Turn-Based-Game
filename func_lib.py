@@ -129,7 +129,7 @@ def gameSelectorMenu_statsEditorMenu():
                 syslib.turnNumber = random.randint(1, 2) # Decides who's gonna get the first turn
                 multiplayer.multiplayerSession()
                 break
-            case "\R":
+            case "\R": 
                 syslib.editorMode = True # Forced to put this here due to some sussy programming bug
                 time.sleep(0.01)
                 gameSelectorMenu_multiplayerMenu_editor()
@@ -162,7 +162,7 @@ def gameSelectorMenu_multiplayerMenu_editor():
                 lang.textValue = lang.textValue[:len(lang.textValue)-1]
                 lang.gameSelector_multiplayerMenuDisplayNames_editorMsg(currentIndex)
                 syslib.currentKey = ""
-            elif syslib.currentKey == "\R":
+            elif syslib.currentKey == "\R": # Enter Key
                 if len(lang.textValue) <= 0:
                     lang.editorZeroValueError = "Invalid Input. Please type a valid input and try again"
                     os.system('cls')

@@ -10,7 +10,6 @@ import os
 # Setting up keybinds manually because class instances have a chance to have seizures during key spam
 
 def multiplayerSession():
-    syslib.editorMode = True
     gameSession = True
     # Loading keybinds because compiler is being a bitch
     settings.loadPlayerKeybinds()
@@ -23,7 +22,7 @@ def multiplayerSession():
     while True and gameSession: # Main Loop
         # ▼▼▼ Put effect start loader here
         effects.effectLoaderStart()
-        if syslib.gamemode == "settings":
+        if syslib.gamemode == "multiplayer":
             match (syslib.turnNumber): 
                 case 1:
                     syslib.turnIdentifier = stats.player01
@@ -53,30 +52,28 @@ def multiplayerSession():
                         break
                 # Enter Skill
                 case syslib.turnIdentifier.keybind1:
-                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[0], "energyCost", 0) and syslib.turnIdentifier.skills[0].name not in [getattr(x, "skillname", "") for x in effects.effectList]: 
+                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[0], "energyCost", 0) and syslib.turnIdentifier.skills[0].name not in [getattr(x, "skillname", "") for x in effects.effectList if x.target.name == syslib.turnIdentifier.name]:
                         syslib.turnIdentifier.skills[0].action()
                         break
-                    else:
-                        print("shit", syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[0], "energyCost", 0), syslib.turnIdentifier.skills[0].name not in [getattr(x, "skillname", "") for x in effects.effectList])
                 case syslib.turnIdentifier.keybind2:
-                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[1], "energyCost", 0) and syslib.turnIdentifier.skills[1].name not in [getattr(x, "skillname", "") for x in effects.effectList]: 
+                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[1], "energyCost", 0) and syslib.turnIdentifier.skills[1].name not in [getattr(x, "skillname", "") for x in effects.effectList if x.target.name == syslib.turnIdentifier.name]:
                         syslib.turnIdentifier.skills[1].action()
                         break
                 case syslib.turnIdentifier.keybind3:
-                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[2], "energyCost", 0) and syslib.turnIdentifier.skills[2].name not in [getattr(x, "skillname", "") for x in effects.effectList]: 
+                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[2], "energyCost", 0) and syslib.turnIdentifier.skills[2].name not in [getattr(x, "skillname", "") for x in effects.effectList if x.target.name == syslib.turnIdentifier.name]: 
                         syslib.turnIdentifier.skills[2].action()
                         break
                 case syslib.turnIdentifier.keybind4:
-                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[3], "energyCost", 0) and syslib.turnIdentifier.skills[3].name not in [getattr(x, "skillname", "") for x in effects.effectList]: 
+                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[3], "energyCost", 0) and syslib.turnIdentifier.skills[3].name not in [getattr(x, "skillname", "") for x in effects.effectList if x.target.name == syslib.turnIdentifier.name]:
                         syslib.turnIdentifier.skills[3].action()
                         break
                 case syslib.turnIdentifier.keybind5:
-                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[4], "energyCost", 0) and syslib.turnIdentifier.skills[4].name not in [getattr(x, "skillname", "") for x in effects.effectList]: 
+                    if syslib.turnIdentifier.energy >= getattr(syslib.turnIdentifier.skills[4], "energyCost", 0) and syslib.turnIdentifier.skills[4].name not in [getattr(x, "skillname", "") for x in effects.effectList if x.target.name == syslib.turnIdentifier.name]:
                         syslib.turnIdentifier.skills[4].action()
                         break
         os.system('cls')
         # Switches rounds
-        if syslib.gamemode == "settings":
+        if syslib.gamemode == "multiplayer":
             if int(syslib.turnNumber) == 1:
                 syslib.turnNumber = 2
             elif int(syslib.turnNumber) == 2:
