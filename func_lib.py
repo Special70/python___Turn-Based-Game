@@ -2,11 +2,15 @@ import system_lib as syslib
 import locale_EN as lang
 import settings
 import stats
-import skills
+from custom_mechanics import skills
+
 
 import os
 import time
 import random
+import sys
+
+from gamemodes import multiplayer
 
 def mainMenuSystem():
     while True:
@@ -44,9 +48,9 @@ def settingsKeyBindEditor():
     # Grabs each key in the keybind dictionary
     keyOfKeybinds = [key for key in settings.keybinds]
     while syslib.mainMenuLoop1_settings_keybindEditor:
-        keypress = syslib.currentKey # Constantly checks what the user has pressed
-        match (keypress): # Once it hits any of the cases below, it will save the value for the first case
-            case "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9": # To select what keybind to edit
+        keypress = syslib.currentKey # Saves keypress
+        match (keypress): # Uses keypress variable as reference for the code below
+            case "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9": # Checks if user pressed keys 0 to 9
                 os.system('cls')
                 lang.settings_page01_keybindEditor_selectKeybind(keyOfKeybinds[int(keypress)])
                 syslib.currentKey = ""
@@ -108,12 +112,12 @@ def gameSelectorMenu_multiplayerMenu():
                     settings.multiplayerMainMenu_arrowSelection[indexOfArrow+1] = "◄"
                     lang.gameSelector_multiplayerMenuDisplayNames()
                     time.sleep(0.01)
-            case "P": # Play
+            case "P": # Play ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 os.system('cls')
                 # Pick which of the two will make the first move:
-                syslib.turnNumber = random.randint(1, 2)
+                syslib.turnNumber = random.randint(1, 2) # Decides who's gonna get the first turn
                 stats.loadPlayerKeybinds()
-                multiplayerSession()
+                multiplayer.multiplayerSession()
                 break
             case "\R":
                 syslib.editorMode = True # Forced to put this here due to some sussy programming bug
@@ -164,7 +168,7 @@ def gameSelectorMenu_multiplayerMenu_editor():
                     lang.editorZeroValueError = ""
                     syslib.editorMode = False
                     break
-    else:
+    else: # SKILL SELECTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         os.system('cls')
         lang.gameSelector_multiplayerMenuDisplayNames_skillSelectorMsg("Skill #"+str(currentIndex-3))
         while True:
@@ -174,74 +178,36 @@ def gameSelectorMenu_multiplayerMenu_editor():
                     break
                 case "Q":
                     specifiedPlayer.skills[currentIndex-4] = skills.Basic_Attack()
-                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedOppopent_of_Player)
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedOppopent_of_Player, specifiedPlayer)
                     exitSkillSelection()
                     break
-            
-            
-
-# =================[Multiplayer PVP GAME SESSION]=================
-# =================[Multiplayer PVP GAME SESSION]=================
-# =================[Multiplayer PVP GAME SESSION]=================
-
-def multiplayerSession():
-    gameSession = True
-    match (syslib.turnNumber):
-        case 1:
-            syslib.turnIdentifier = stats.player01
-        case 2:
-            syslib.turnIdentifier = stats.player02
-    lang.gameSelector_multiplayerMenu_startGameTurn01(syslib.turnIdentifier)
-    
-    # Loading keybinds because compiler is being a bitch
-    
-    while True and gameSession: # Main Loop
-        while True: # Listens for key inputs
-            match (syslib.currentKey):
-                case "Q": # Quit
-                    os.system('cls')
-                    print("Are you sure? Y/N")
-                    confirmBool = False
-                    while True:
-                        match (syslib.currentKey):
-                            case "N": # No
-                                os.system('cls')
-                                lang.gameSelector_multiplayerMenu_startGameTurn01(syslib.turnIdentifier)
-                                break
-                            case "Y": # Yes
-                                os.system('cls')
-                                gameSession = False
-                                confirmBool = True
-                                break
-                    if confirmBool:
-                        break
-                # Enter Skill
-                case syslib.turnIdentifier.keybind1:
-                    syslib.turnIdentifier.skills[0].action()
-                    print("Skill 1")
-                case syslib.turnIdentifier.keybind2:
-                    syslib.turnIdentifier.skills[1].action()
-                    print("Skill 2")
-                case syslib.turnIdentifier.keybind3:
-                    syslib.turnIdentifier.skills[2].action()
-                    print("Skill 3")
+                case "W":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Heal()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedPlayer)
+                    exitSkillSelection()
                     break
-                case syslib.turnIdentifier.keybind4:
-                    syslib.turnIdentifier.skills[3].action()
-                    print("Skill 4")
+                case "E":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Amplify()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedPlayer)
+                    exitSkillSelection()
                     break
-                case syslib.turnIdentifier.keybind5:
-                    syslib.turnIdentifier.skills[4].action()
-                    print("Skill 5")
+                case "R":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Defense()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedPlayer)
+                    exitSkillSelection()
                     break
+                case "T":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Burn()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedOppopent_of_Player, specifiedPlayer)
+                    exitSkillSelection()
+                    break
+                case "Y":
+                    specifiedPlayer.skills[currentIndex-4] = skills.Weaken()
+                    specifiedPlayer.skills[currentIndex-4].assignTarget(specifiedOppopent_of_Player, specifiedPlayer)
+                    exitSkillSelection()
+                    break
+                    
+                    
         
-        os.system('cls')
-        lang.gameSelector_multiplayerMenu_startGameTurn01(syslib.turnIdentifier)
-        # Switches rounds
-        match (syslib.turnNumber):
-            case 1:
-                syslib.turnNumber = 2
-            case 2:
-                syslib.turnNumber = 1
                 
             

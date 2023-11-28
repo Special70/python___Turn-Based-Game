@@ -2,7 +2,8 @@ import time
 import settings
 
 import stats
-import skills
+from custom_mechanics import skills
+from custom_mechanics import effects
 
 def mainMenu_startMsg_0():
     text = "Special70 Presents...."
@@ -212,6 +213,11 @@ def gameSelector_multiplayerMenuDisplayNames_skillSelectorMsg(selectedSkillNumbe
     text = ('=================================',
             f'Select skill for {selectedSkillNumber}',
             f'► "Q": {skills.Basic_Attack()} > {skills.Basic_Attack.description}',
+            f'► "W": {skills.Heal()} > {skills.Heal.description}',
+            f'► "E": {skills.Amplify()} > {skills.Amplify.description}',
+            f'► "R": {skills.Defense()} > {skills.Defense.description}',
+            f'► "T": {skills.Burn()} > {skills.Burn.description}',
+            f'► "Y": {skills.Weaken()} > {skills.Weaken.description}',
             f'',
             f'► "B": Back')
     finalText = '\n'.join(text)
@@ -224,55 +230,32 @@ def gameSelector_multiplayerMenuDisplayNames_skillSelectorMsg(selectedSkillNumbe
 # =================[Multiplayer PVP GAME SESSION]=================
 
 def gameSelector_multiplayerMenu_startGameTurn01(playerClass):
-    text = '''
-=================================================
-{user_name}'s Turn!
-Player01 HP: {p1_hp}
-Player01 ATK: {p1_atk}
-Player01 DEF: {p1_defense}
-Player01 ENERGY: {p1_energy}
-
-Player02 HP: {p2_hp}
-Player02 ATK: {p2_atk}
-Player02 DEF: {p2_defense}
-Player02 ENERGY: {p2_energy}
-
-Select Action:
-► "{c1}" : {skill0} > {skill0_desc}
-► "{c2}" : {skill1} > {skill1_desc}
-► "{c3}" : {skill2} > {skill2_desc}
-► "{c4}" : {skill3} > {skill3_desc}
-► "{c5}" : {skill4} > {skill4_desc}
-
-► "Q": Back
-    '''.format(
-        user_name = playerClass.name,
-        p1_hp = stats.player01.hp,
-        p1_atk = stats.player01.atk,
-        p1_defense = stats.player01.defense,
-        p1_energy = stats.player01.energy,
-        
-        p2_hp = stats.player02.hp,
-        p2_atk = stats.player02.atk,
-        p2_defense = stats.player02.defense,
-        p2_energy = stats.player02.energy,
-        
-        skill0 = playerClass.skills[0],
-        skill1 = playerClass.skills[1],
-        skill2 = playerClass.skills[2],
-        skill3 = playerClass.skills[3],
-        skill4 = playerClass.skills[4],
-        
-        skill0_desc = playerClass.skills[0].description,
-        skill1_desc = playerClass.skills[1].description,
-        skill2_desc = playerClass.skills[2].description,
-        skill3_desc = playerClass.skills[3].description,
-        skill4_desc = playerClass.skills[4].description,
-        
-        c1 = playerClass.keybind1,
-        c2 = playerClass.keybind2,
-        c3 = playerClass.keybind3,
-        c4 = playerClass.keybind4,
-        c5 = playerClass.keybind5,
-    )
-    print(text)
+    text = ('=================================================',
+            f'{playerClass.name}\'s Turn!',
+            f'Player01 HP: {stats.player01.hp}',
+            f'Player01 ATK: {stats.player01.atk} {f"* {stats.player01.amplifier}" if stats.player01.amplifier > 1 else ""}',
+            f'Player01 DEF: {stats.player01.defense}',
+            f'Player01 ENERGY: {stats.player01.energy}',
+            f'Current Effects : {[x for x in effects.effectList if x.target.name == "Player 1"]}',
+            f'',
+            f'Player02 HP: {stats.player02.hp}',
+            f'Player02 ATK: {stats.player02.atk}',
+            f'Player02 DEF: {stats.player02.defense}',
+            f'Player02 ENERGY: {stats.player02.energy}',
+            f'Current Effects : {[x for x in effects.effectList if x.target.name == "Player 2"]}',
+            f'',
+            f'Select Action:',
+            f'► "{playerClass.keybind1}" : {playerClass.skills[0]} > {playerClass.skills[0].description}',
+            f'► "{playerClass.keybind2}" : {playerClass.skills[1]} > {playerClass.skills[1].description}',
+            f'► "{playerClass.keybind3}" : {playerClass.skills[2]} > {playerClass.skills[2].description}',
+            f'► "{playerClass.keybind4}" : {playerClass.skills[3]} > {playerClass.skills[3].description}',
+            f'► "{playerClass.keybind5}" : {playerClass.skills[4]} > {playerClass.skills[4].description}',
+            f'',
+            '► "Q": Back')
+    print('\n'.join(text))
+    
+def multiplayerSession_dictateWhoWon(winner):
+    text = (f'{winner.name} has won!',
+            f'Enter anything to exit')
+    print('\n'.join(text))
+    

@@ -17,18 +17,20 @@ class No_Selected_Skill:
 class Player:
     def __init__(self, name):
         self.name = str(name)
+        self.amplifier = 1
         
         self.hp = 20
-        self.atk = 2
-        self.defense = 2
+        self.atk = 2 * self.amplifier
+        self.defense = 2 
         self.energy = 3
+         
         
         self.skills = [No_Selected_Skill(), No_Selected_Skill(), No_Selected_Skill(), No_Selected_Skill(), No_Selected_Skill()]
         self.keybind1 = ""
         self.keybind2 = ""
         self.keybind3 = ""
         self.keybind4 = ""
-        self.keybind5 = ""        
+        self.keybind5 = "" 
     def __repr__(self):
         return self.name
 # Default value and for declaration purposes and stuff. 
