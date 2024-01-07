@@ -1,8 +1,8 @@
 # Turn Based Game
 A turn-based game built in Python3 where you can select skills, edit starting stats and play with either a 2nd player or a computer opponent. 
-  
+<p align="center">
 ![alt text](https://imgur.com/HMhQ7OP.png)
-
+</p>
 ## How to open the game
 Run main.py to open the game
 
